@@ -20,7 +20,7 @@ FYI I use Debian
 namespace NumberRecog
 {
 
-std::vector<Mnist::img_t> Mnist::read(const std::string& path)
+std::vector<Mnist::img_t> Mnist::read_images(const std::string& path)
 {
 	std::ifstream file(path);
 	const auto read = [&](auto& x) {
@@ -48,6 +48,22 @@ std::vector<Mnist::img_t> Mnist::read(const std::string& path)
 		}
 	}
 
+	return ans;
+}
+
+std::vector<uint8_t> Mnist::read_labels(const std::string& path)
+{
+	std::ifstream file(path);
+	const auto read = [&](auto& x) {
+		file.read((char*)& x, sizeof(x));
+		x = reverse(x);
+	};
+
+	int mod; read(mod);
+	int cnt; read(cnt);
+	std::vector<uint8_t> ans(cnt);
+	for (uint8_t& i: ans)
+		file.read((char*)& i, sizeof(i));
 	return ans;
 }
 

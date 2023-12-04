@@ -33,7 +33,8 @@ class Mnist
 {
 public:
 	using img_t = dlib::matrix<uint8_t>;
-	static std::vector<img_t> read(const std::string& path_to_mnist_file);
+	static std::vector<img_t>   read_images(const std::string& path_to_mnist_file);
+	static std::vector<uint8_t> read_labels(const std::string& path_to_mnist_file);
 
 private:
 	static int reverse(int x);
