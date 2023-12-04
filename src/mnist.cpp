@@ -15,13 +15,12 @@ FYI I use Debian
 */
 
 #include "mnist.h"
-#include <cstdint>
 #include <fstream>
 
 namespace NumberRecog
 {
 
-void Mnist::read(const std::string& path)
+std::vector<Mnist::img_t> Mnist::read(const std::string& path)
 {
 	std::ifstream file(path);
 	const auto read = [&](auto& x) {
@@ -35,15 +34,21 @@ void Mnist::read(const std::string& path)
 	int row; read(row);
 	int col; read(col);
 
+	// read images
+	std::vector<img_t> ans;
+	ans.reserve(cnt);
+
 	while (cnt--) {
-		// now do something with the image
+		ans.emplace_back(row, col);
 		for (int y = 0; y < row; y++)
 		for (int x = 0; x < col; x++) {
 			uint8_t byte;
 			file.read((char*)& byte, sizeof(byte));
+			ans.back()(y, x) = byte;
 		}
 	}
 
+	return ans;
 }
 
 int Mnist::reverse(int x)

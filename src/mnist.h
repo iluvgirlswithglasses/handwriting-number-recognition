@@ -20,7 +20,10 @@ FYI I use Debian
 /** @ docs */
 
 /** @ dependencies */
+#include <vector>
 #include <string>
+#include <cstdint>
+#include <dlib/matrix.h>
 
 /** @ implementation */
 namespace NumberRecog
@@ -29,7 +32,8 @@ namespace NumberRecog
 class Mnist
 {
 public:
-	static void read(const std::string& path);
+	using img_t = dlib::matrix<uint8_t>;
+	static std::vector<img_t> read(const std::string& path_to_mnist_file);
 
 private:
 	static int reverse(int x);
