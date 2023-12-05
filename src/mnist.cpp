@@ -51,7 +51,7 @@ std::vector<Mnist::img_t> Mnist::read_images(const std::string& path)
 	return ans;
 }
 
-std::vector<uint8_t> Mnist::read_labels(const std::string& path)
+Mnist::labels_type Mnist::read_labels(const std::string& path)
 {
 	std::ifstream file(path);
 	const auto read = [&](auto& x) {
@@ -61,9 +61,12 @@ std::vector<uint8_t> Mnist::read_labels(const std::string& path)
 
 	int mod; read(mod);
 	int cnt; read(cnt);
-	std::vector<uint8_t> ans(cnt);
-	for (uint8_t& i: ans)
-		file.read((char*)& i, sizeof(i));
+	labels_type ans(cnt);
+	for (auto& i: ans) {
+		uint8_t tmp;
+		file.read((char*)& tmp, sizeof(tmp));
+		i = tmp;
+	}
 	return ans;
 }
 
