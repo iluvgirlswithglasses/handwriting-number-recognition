@@ -15,14 +15,27 @@ FYI I use Debian
 */
 
 #include <iostream>
-#include "../src/mnist.h"
+#include <string>
+#include "../src/trainer.h"
 using namespace std;
 using namespace NumberRecog;
 
-int main()
+int main(int argc, const char* argv[])
 {
 	ios_base::sync_with_stdio(false); cin.tie(0);
-	Mnist::read("./dat/train-images.idx3-ubyte");
+	string fansnet = argv[1];	// final (answer) network
+	string fbackup = argv[2];	// training backup file
+	string fdatdir = argv[3];	// training/test data
+
+	Trainer::train(
+		fdatdir + "/train-images.idx3-ubyte",
+		fdatdir + "/train-labels.idx1-ubyte",
+		fansnet,
+		fbackup);
+	Trainer::test(
+		fdatdir + "/t10k-images.idx3-ubyte",
+		fdatdir + "/t10k-labels.idx1-ubyte",
+		fansnet);
 	return 0;
 }
 
